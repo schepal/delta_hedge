@@ -36,7 +36,7 @@ No need to hedge. Current portfolio delta: 0.0073
 '''
 ```
 ## Installation of dependencies
-Run the following command in terminal to install all of the required packages.
+Run the following command in terminal to install all of the required packages. Users will likely experience errors if they install a different version of `CCXT` from the exact version listed in the requirements.txt file.
 
 ```
 pip install -r requirements.txt
