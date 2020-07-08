@@ -11,13 +11,19 @@ If a trader were to identify a mis-pricing of volatility for a particular option
 
 To avoid having to constantly watch their positions, this tool calculates the portfolio delta every 30 seconds and automatically rebalances in the case a chosen delta threshold level is breached. The portfolio is delta-hedged using the chosen asset’s perpetual futures contract on Deribit. 
 
+## Function Parameters
+- `api_id`: string: The `api_id` can be found under API management under account settings.
+- `api_secret`: string: The `api_secret` can be found under API management under account settings.   
+- `symbol`: string (default "BTC"): The asset you wish to delta-hedge. Currently only "BTC" and "ETH" are supported.
+- `threshold`: The maximum absolute value of delta exposure to have at any given time. The default value is currently 10% which means the portfolio delta will fluctuate between -10% to 10%. Any breach beyond this level will result in the portfolio being delta-hedged.
+
 ## Example
 In the example below, the script is setup to delta-hedge Bitcoin (BTC) options and rebalance the portfolio in the case the delta exceeds +/- 10%. 
 ``` python
 >>> import delta_hedge
->>> api_id = "replace_this_with_id" # replace your `api_id` in the quotes
->>> api_secret = "replace_this_with_secret" # replace your `api_secret` in the quotes
->>> dh = delta_hedge.Hedge(api_id, api_secret, "BTC", 0.10)
+>>> id = "replace_this_with_id" # replace your `api_id` in the quotes
+>>> secret = "replace_this_with_secret" # replace your `api_secret` in the quotes
+>>> dh = delta_hedge.Hedge(api_id=id, api_secret=secret, symbol="BTC", threshold=0.10)
 
 # Get current total portfolio delta exposure for the chosen asset
 >>> dh.current_delta()
