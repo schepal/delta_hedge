@@ -1,5 +1,5 @@
 # Deribit Delta-Hedger
-**Disclaimer: This tool is only for demonstration purposes and is not financial advice. Use at your own risk.**
+### Disclaimer: This tool is only for demonstration purposes and is not financial advice. Use at your own risk.
 
 A rebalancing tool to delta-hedge a portfolio of cryptocurrency options on Deribit Exchange. 
 
