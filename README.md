@@ -35,3 +35,9 @@ No need to hedge. Current portfolio delta: 0.0055
 No need to hedge. Current portfolio delta: 0.0073
 '''
 ```
+## Installation of dependencies
+Run the following command in terminal to install all of the required packages.
+
+```
+pip install -r requirements.txt
+```
