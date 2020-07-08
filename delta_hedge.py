@@ -9,7 +9,7 @@ import time
 class Hedge:
     def __init__(self, api_id, api_secret, symbol, threshold):
         """
-        Initializing Hedge Class.
+        Initializing Hedge class.
         Parameters
         ----------
         api_id: string
@@ -26,16 +26,15 @@ class Hedge:
         Example
         ---------
         >>> import delta_hedge
-        >>> api_id = '123456' # replace your api_id in the quotes
-        >>> api_secret = '123456' # replace your api_secret in the quotes
+        >>> api_id = "..." # replace your `api_id` in the quotes
+        >>> api_secret = "..." # replace your `api_secret` in the quotes
         >>> dh = delta_hedge.Hedge(api_id, api_secret, "BTC", 0.05)
         """
-
         self.api_id = api_id
         self.api_secret = api_secret
         self.load = ccxt.deribit({'apiKey':name, 'secret':secret})
         self.symbol = symbol
-        self.threshold = float(threshold)
+        self.threshold = abs(float(threshold))
 
         if ((self.symbol != 'BTC') and (self.symbol !='ETH')):
             raise ValueError("Incorrect symbol - please choose between 'BTC' or 'ETH'")
@@ -47,13 +46,13 @@ class Hedge:
         Example
         ---------
         >>> dh.current_delta()
-        0.035
+        0.065 # portfolio delta is 6.5%
         """
         return self.load.fetch_balance({'currency': str(self.symbol)})['info']['result']['delta_total']
 
     def delta_hedge(self):
         """
-        Rebalances portfolio to be delta-neutral (0 delta) based on current delta exposure.
+        Rebalances entire portfolio to be delta-neutral based on current delta exposure.
         """
         current_delta = self.current_delta()
         # if delta is negative, we must BUY futures to hedge our negative delta
@@ -62,21 +61,21 @@ class Hedge:
         # if delta is positive, we must SELL futures to hedge our positive delta
         if current_delta > 0:
             sign = 'sell'
-        # Retrieve the average price of the perpetual future contract for the asset
-        avg_price = np.mean(self.load.fetch_ohlcv(str(self.symbol)+"-PERPETUAL")[0][1:5])
-        # If the absolute delta exposure is greater than our threshold, then we hedge
+        # retrieve the average price of the perpetual future contract for the asset
+        avg_price = np.mean(self.load.fetch_ohlcv(str(self.symbol)+"-PERPETUAL", limit=10)[-1][1:5])
+        # if the absolute delta exposure is greater than our threshold then we place a hedging trade
         if abs(current_delta) >= self.threshold:
             asset = str(self.symbol) + "-PERPETUAL"
             order_size = abs(current_delta*avg_price)
             self.load.create_market_order(asset, sign, order_size)
-            print("Delta Hedged Portfolio:", str(sign), str(order_size/avg_price))
+            print("Rebalancing trade to achieve delta-neutral portfolio:", str(sign), str(order_size/avg_price), str(self.symbol))
         else:
             pass
-            print("No need to hedge. Current Portfolio Delta:", current_delta)
+            print("No need to hedge. Current portfolio delta:", current_delta)
 
     def run_loop(self):
         """
-        Runs the delta-hedge script in loop.
+        Runs the delta-hedge script in continuous loop.
         """
         while True:
             try:
