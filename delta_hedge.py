@@ -1,9 +1,5 @@
-import requests
-import pandas as pd
 import numpy as np
-from tqdm import tqdm
 import ccxt
-import numpy as np
 import time
 
 class Hedge:
