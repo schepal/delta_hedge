@@ -14,17 +14,18 @@ class Hedge:
             The `api_secret` can be found under API management under account settings.
         symbol: string (default "BTC")
             The asset you wish to delta-hedge. Currently only "BTC" and "ETH" are supported.
-        threshold: float (default 10%)
+        threshold: float (default 0.10)
             The maximum absolute value of delta exposure to have at any given time. The default
-            value is currently 10% which means the portfolio delta will fluctuate between -10% to 10%.
-            Any breach beyond this level will result in the portfolio being delta-hedged.
+            value is currently 0.10 which means the portfolio delta will fluctuate between -0.10 to 0.10 
+            of whichever asset you are trading. Any breach beyond this level will result in the portfolio 
+            being delta-hedged.
 
         Example
         ---------
         >>> import delta_hedge
         >>> id = "..." # replace your `api_id` in the quotes
         >>> secret = "..." # replace your `api_secret` in the quotes
-        >>> dh = delta_hedge.Hedge(api_id=id, api_secret=secret, symbol="BTC", threshold=0.05)
+        >>> dh = delta_hedge.Hedge(api_id=id, api_secret=secret, symbol="BTC", threshold=0.10)
         """
         self.load = ccxt.deribit({'apiKey':api_id, 'secret':api_secret})
         self.symbol = symbol
