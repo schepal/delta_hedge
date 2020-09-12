@@ -15,7 +15,7 @@ To avoid having to constantly watch open positions, this tool calculates the por
 - `api_id` (string): The ID can be found under API management under account settings on the Deribit website.
 - `api_secret` (string): The secret can be found under API management under account settings on the Deribit website.  
 - `symbol` (string): The asset you wish to delta-hedge. Currently only "BTC" and "ETH" are supported with the default value set to "BTC".
-- `threshold` (float): The maximum absolute value of delta exposure to have at any given time. The default value is currently 0.10 which means the portfolio delta will fluctuate between  -0.10 to 0.10 BTC. Any breach beyond this level will result in the portfolio being delta-hedged.
+- `threshold` (float): The maximum absolute value of delta exposure to have at any given time. The default value is currently 0.10 which means the portfolio delta will fluctuate between -0.10 to 0.10 of whichever asset you are trading. Any breach beyond this level will result in the portfolio being delta-hedged.
 
 ## Example
 In the example below, the script is setup to delta-hedge Bitcoin (BTC) exposures and rebalance the portfolio in case the delta exceeds +/- 0.10 BTC.
